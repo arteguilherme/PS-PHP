@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +25,7 @@ class VehicleFactory extends Factory
             'modelo' => fake()->word(),
             'ano' => fake()->year(),
             'cor' => fake()->colorName(),
-            'criado_em' => fake()->dateTimeBetween('-3 weeks'),
+            'criado_em' => Carbon::parse(fake()->dateTimeBetween('-3 weeks')),
         ];
     }
 }
