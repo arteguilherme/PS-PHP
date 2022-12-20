@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('vehicles', VehicleController::class)->middleware(['auth', 'verified']);
+Route::get('vehicles/getMarcas/{typeVehicle}', [VehicleController::class, 'getMarcas']);
+Route::get('vehicles/getModelos/{typeVehicle}/{marca}', [VehicleController::class, 'getModelos']);
+Route::get('vehicles/getAno/{typeVehicle}/{marca}/{modelo}', [VehicleController::class, 'getAno']);
 
 require __DIR__.'/auth.php';
 

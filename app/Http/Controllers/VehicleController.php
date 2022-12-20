@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypeVehicle;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,8 @@ class VehicleController extends Controller
     public function create()
     {
         //
+        $typeVehicles = TypeVehicle::all();
+        return view('vehicle.create', compact('typeVehicles'));
     }
 
     /**
@@ -81,5 +84,25 @@ class VehicleController extends Controller
     public function destroy(Vehicle $vehicle)
     {
         //
+    }
+
+    public function getMarcas(TypeVehicle $typeVehicle)
+    {
+
+        $output = file_get_contents("https://parallelum.com.br/fipe/api/v1/{$typeVehicle->slug}/marcas");
+
+        return (array) json_decode($output);
+    }
+    public function getModelos(TypeVehicle $typeVehicle, $marca)
+    {
+        $output = file_get_contents("https://parallelum.com.br/fipe/api/v1/{$typeVehicle->slug}/marcas/{$marca}/modelos");
+
+        return json_decode($output);
+    }
+    public function getAno(TypeVehicle $typeVehicle, $marca, $modelo)
+    {
+        $output = file_get_contents("https://parallelum.com.br/fipe/api/v1/{$typeVehicle->slug}/marcas/{$marca}/modelos/{$modelo}/anos");
+
+        return json_decode($output);
     }
 }

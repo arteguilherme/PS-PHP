@@ -413,7 +413,7 @@
                 <h1>{{ $vehicle->typeVehicle->name }}</h1>
                 <div>
                     <h1>{{ $vehicle->placa }}</h1>
-                    <h1>{{ \Carbon\Carbon::parse($vehicle->criado_em)->diffForHumans() }}</h1>
+                    <h1>{{ $vehicle->criado_em->diffForHumans() }}</h1>
                 </div>
             </div>
         @endforeach
