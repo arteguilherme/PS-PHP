@@ -46,11 +46,11 @@
                             @foreach ($vehicles as $vehicle)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row"
-                                        class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class="py-4 px-6 uppercase font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $vehicle->placa }}
                                     </th>
                                     <td class="py-4 px-6">
-                                        <h1>{{ $vehicle->placa }}</h1>
+                                        <h1>{{ $vehicle->typeVehicle->name }}</h1>
                                     </td>
                                     <td class="py-4 px-6">
                                         {{ $vehicle->marca }}
@@ -61,11 +61,11 @@
                                     <td class="py-4 px-6">
                                         {{ $vehicle->ano }}
                                     </td>
-                                    <td class="py-4 px-6">
+                                    <td class="py-4 px-6 uppercase">
                                         {{ $vehicle->cor }}
                                     </td>
                                     <td class="py-4 px-6">
-                                        {{ date('d-m-Y', strtotime($vehicle->criado_em)) }}
+                                        {{ date('d/m/Y', strtotime($vehicle->criado_em)) }}
                                     </td>
                                 </tr>
                             @endforeach

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVehicleRequest;
 use App\Models\TypeVehicle;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
@@ -25,7 +27,6 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        //
         $typeVehicles = TypeVehicle::all();
         return view('vehicle.create', compact('typeVehicles'));
     }
@@ -36,9 +37,22 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreVehicleRequest $request)
     {
-        //
+//        $request->validated();
+
+        $vehicle = $this->getVehicle($request->all());
+
+        Vehicle::create([
+            'user_id' => auth()->id(),
+            'type_vehicle_id' => request('typeVehicle'),
+            'placa' => request('placa'),
+            'marca' => $vehicle->Marca,
+            'modelo' => $vehicle->Modelo,
+            'ano' => $vehicle->AnoModelo,
+            'cor' => request('cor'),
+            'criado_em' => Carbon::now()
+        ]);
     }
 
     /**
@@ -88,7 +102,6 @@ class VehicleController extends Controller
 
     public function getMarcas(TypeVehicle $typeVehicle)
     {
-
         $output = file_get_contents("https://parallelum.com.br/fipe/api/v1/{$typeVehicle->slug}/marcas");
 
         return (array) json_decode($output);
@@ -104,5 +117,13 @@ class VehicleController extends Controller
         $output = file_get_contents("https://parallelum.com.br/fipe/api/v1/{$typeVehicle->slug}/marcas/{$marca}/modelos/{$modelo}/anos");
 
         return json_decode($output);
+    }
+
+    public function getVehicle($data)
+    {
+//        https://parallelum.com.br/fipe/api/v1/carros/marcas/<NUMERO DA MARCA>/modelos/<NUMERO DO MODELO>/anos/<ANO-MES>
+        $vehicle = file_get_contents("https://parallelum.com.br/fipe/api/v1/carros/marcas/{$data['marca']}/modelos/{$data['modelo']}/anos/{$data['ano']}");
+
+        return json_decode($vehicle);
     }
 }

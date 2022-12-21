@@ -406,14 +406,14 @@
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
         @foreach($vehicles as $vehicle)
             <div class="w-full bg-gray-200 mb-4 p-4 rounded-lg drop-shadow-lg">
-                <h1>{{ $vehicle->marca }}</h1>
-                <h1>{{ $vehicle->modelo }}</h1>
-                <h1>{{ $vehicle->ano }}</h1>
-                <h1>{{ $vehicle->cor }}</h1>
-                <h1>{{ $vehicle->typeVehicle->name }}</h1>
+                <div>{{ $vehicle->marca }}</div>
+                <div>{{ $vehicle->modelo }}</div>
+                <div>{{ $vehicle->ano }}</div>
+                <div class="uppercase">{{ $vehicle->cor }}</div>
+                <div>{{ $vehicle->typeVehicle->name }}</div>
                 <div>
-                    <h1>{{ $vehicle->placa }}</h1>
-                    <h1>{{ $vehicle->criado_em->diffForHumans() }}</h1>
+                    <div class="uppercase">{{ $vehicle->placa }}</div>
+                    <div>{{ $vehicle->criado_em->diffForHumans() }}</div>
                 </div>
             </div>
         @endforeach

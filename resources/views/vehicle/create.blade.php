@@ -7,7 +7,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <form action="{{ route('vehicles.store') }}">
+                <form action="{{ route('vehicles.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label class="block font-medium text-sm text-gray-700" for="name">
@@ -16,16 +16,28 @@
                         <div class="flex items-center space-x-2">
                             @foreach($typeVehicles as $typeVehicle)
                                 <input class="" type="radio" value="{{$typeVehicle->id}}"
-                                       id={{ $typeVehicle->slug }} name="typeVehicle">
+                                       id={{ $typeVehicle->slug }} name="typeVehicle" {{ old('typeVehicle') == $typeVehicle->id ? 'checked' : '' }}>
                                 <label for={{ $typeVehicle->slug }}>{{ $typeVehicle->name }}</label>
                             @endforeach
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700" for="placa">
-                            {{ __('Placa') }}
-                        </label>
-                        <input id="placa" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" type="text" name="placa">
+                    <div class="grid gap-4 grid-cols-2">
+                        <div class="mb-4">
+                            <label class="block font-medium text-sm text-gray-700" for="placa">
+                                {{ __('Placa') }}
+                            </label>
+                            <input id="placa"
+                                   class="border-gray-300 uppercase focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+                                   type="text" name="placa" value="{{ old('paca') }}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-medium text-sm text-gray-700" for="cor">
+                                {{ __('Cor') }}
+                            </label>
+                            <input id="cor"
+                                   class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+                                   type="text" name="cor" value="{{ old('cor') }}">
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block font-medium text-sm text-gray-700" for="marca">
@@ -34,10 +46,9 @@
                         <select
                             id="marca"
                             name="marca"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
-                            disabled
-                            required>
-                                <option  value="">{{ __('Selecione uma marca') }}</option>
+                            class="border-gray-300 focus:border-indigo-500 disabled:opacity-25 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+                            disabled>
+                            <option value="">{{ __('Selecione uma marca') }}</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -47,9 +58,9 @@
                         <select
                             id="modelo"
                             name="modelo"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+                            class="border-gray-300 focus:border-indigo-500 disabled:opacity-25 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
                             disabled>
-                                <option  value="">{{ __('Selecione um modelo') }}</option>
+                            <option value="">{{ __('Selecione um modelo') }}</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -59,20 +70,27 @@
                         <select
                             id="ano"
                             name="ano"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+                            class="border-gray-300 focus:border-indigo-500 disabled:opacity-25 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
                             disabled>
-                                <option  value="">{{ __('Selecione o ano') }}</option>
+                            <option value="">{{ __('Selecione o ano') }}</option>
                         </select>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="flex justify-end items-center">
                         <button type="submit"
                                 class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            {{ __('Adicionar veiculo') }}
+                            {{ __('Adicionar veículo') }}
                         </button>
                     </div>
                 </form>
-                <div class="text-gray-900 p-6">
-                </div>
             </div>
         </div>
     </div>
@@ -80,7 +98,9 @@
 <!-- Script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
-    option:empty{display:none;}
+    option:empty {
+        display: none;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -112,7 +132,7 @@
                 success: function (response) {
                     var modelos = response.modelos;
                     modelos.map((modelo) => {
-                        var options = `<option  value="${modelo.codigo}">${modelo.nome}<option>`;
+                        var options = `<option value="${modelo.codigo}">${modelo.nome}<option>`;
                         $("#modelo").append(options);
                     });
                     document.querySelector("#modelo").removeAttribute("disabled");

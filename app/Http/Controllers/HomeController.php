@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('welcome', [
-            'vehicles' => Vehicle::whereDate('criado_em', '>', '2022-12-09')->get()
+            'vehicles' => Vehicle::orderBy('id', 'desc')->whereDate('criado_em', '>', '2022-12-09')->get()
         ]);
     }
 }
