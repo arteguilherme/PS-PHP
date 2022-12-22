@@ -40,6 +40,7 @@
                                 <th scope="col" class="py-3 px-6">
                                     {{ __('Data Criação') }}
                                 </th>
+                                <th>{{ __('Ação') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -66,6 +67,14 @@
                                     </td>
                                     <td class="py-4 px-6">
                                         {{ date('d/m/Y', strtotime($vehicle->criado_em)) }}
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('vehicles.destroy',$vehicle->id) }}" method="Post">
+                                            <a class="text-blue-500" href="{{ route('vehicles.edit',$vehicle->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500"><i class="fa-solid fa-trash-can"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
