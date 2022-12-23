@@ -24,12 +24,12 @@ class StoreVehicleRequest extends FormRequest
     public function rules()
     {
         return [
-            'typeVehicle' => 'required',
+            'typeVehicle' => 'required|exists:type_vehicles,id',
             'placa' => 'required',
+            'cor' => 'required',
             'marca' => 'required',
             'modelo' => 'required',
             'ano' => 'required',
-            'cor' => 'required',
         ];
     }
 
@@ -38,11 +38,15 @@ class StoreVehicleRequest extends FormRequest
      *
      * @return array
      */
-//    public function messages()
-//    {
-//        return [
-//            'title.required' => 'A title is required',
-//            'body.required' => 'A message is required',
-//        ];
-//    }
+    public function messages()
+    {
+        return [
+            'typeVehicle.required' => 'Tipo de veículo é obrigatório',
+            'placa.required' => 'Placa é obrigatório',
+            'cor.required' => 'Cor é obrigatório',
+            'marca.required' => 'Marca é obrigatório',
+            'modelo.required' => 'Modelo é obrigatório',
+            'ano.required' => 'Ano é obrigatório',
+        ];
+    }
 }

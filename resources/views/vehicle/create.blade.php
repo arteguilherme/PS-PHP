@@ -28,7 +28,7 @@
                             </label>
                             <input id="placa"
                                    class="border-gray-300 uppercase focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
-                                   type="text" name="placa" value="{{ old('paca') }}">
+                                   type="text" name="placa" value="{{ old('placa') }}">
                         </div>
                         <div class="mb-4">
                             <label class="block font-medium text-sm text-gray-700" for="cor">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700" for="marca">
+                        <label class="label-marca block font-medium text-sm text-gray-700" for="marca">
                             {{ __('Marca') }}
                         </label>
                         <select
@@ -52,7 +52,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700" for="marca">
+                        <label class="label-modelo block font-medium text-sm text-gray-700" for="marca">
                             {{ __('Modelo') }}
                         </label>
                         <select
@@ -64,7 +64,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700" for="marca">
+                        <label class="label-ano block font-medium text-sm text-gray-700" for="marca">
                             {{ __('Ano') }}
                         </label>
                         <select
@@ -84,7 +84,8 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="flex justify-end items-center">
+                    <div class="flex justify-between items-center">
+                        <a class="flex items-center justify-center px-4 py-2  uppercase font-semibold text-xs border-2 border-gray-800 hover:bg-gray-800 hover:text-gray-100 p-3 rounded-lg transition delay-50 duration-150 ease-in-out" href="{{ route('dashboard') }}"><i class="fa-solid fa-arrow-left mr-2"></i> {{ __('Voltar') }}</a>
                         <button type="submit"
                                 class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             {{ __('Adicionar veículo') }}
@@ -104,9 +105,20 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+
         $('input[type="radio"][name=typeVehicle]').change(function () {
 
             var typeVehicle = $('input[name=typeVehicle]:checked').val();
+
+            $('#marca').empty().append('<option value="">Selecione uma marca</option>');
+            $('#modelo').empty().append('<option value="">Selecione um modelo</option>');
+            $('#ano').empty().append('<option value="">Selecione o ano</option>');
+
+            document.querySelector("#marca").setAttribute("disabled", 'true');
+            document.querySelector("#modelo").setAttribute("disabled", 'true');
+            document.querySelector("#ano").setAttribute("disabled", 'true');
+
+            $(".label-marca").append('<i class="fa-solid fa-sync fa-spin" style="--fa-animation-duration: .5s;"></i>');
 
             $.ajax({
                 url: "{{ url('vehicles/getMarcas') }}/" + typeVehicle,
@@ -118,12 +130,15 @@
                         $("#marca").append(options);
                     });
                     document.querySelector("#marca").removeAttribute("disabled");
+                    $('.fa-spin').remove();
                 }
             });
         });
 
         $('select[name=marca]').change(function () {
             var typeVehicle = $('input[name=typeVehicle]:checked').val();
+
+            $(".label-modelo").append('<i class="fa-solid fa-sync fa-spin" style="--fa-animation-duration: .5s;"></i>');
 
             $.ajax({
                 url: "{{ url('vehicles/getModelos') }}/" + typeVehicle + "/" + this.value,
@@ -136,26 +151,32 @@
                         $("#modelo").append(options);
                     });
                     document.querySelector("#modelo").removeAttribute("disabled");
+                    $('.fa-spin').remove();
                 }
             });
         });
 
         $('select[name=modelo]').change(function () {
+
             var typeVehicle = $('input[name=typeVehicle]:checked').val();
             var marca = $('select[name=marca]').val();
+
+            $(".label-ano").append('<i class="fa-solid fa-sync fa-spin" style="--fa-animation-duration: .5s;"></i>');
+
             $.ajax({
                 url: "{{ url('vehicles/getAno') }}/" + typeVehicle + "/" + marca + "/" + this.value,
                 method: "get",
                 datatype: "json",
                 success: function (response) {
-                    console.log(response)
                     response.map((ano) => {
                         var options = `<option  value="${ano.codigo}">${ano.nome}<option>`;
                         $("#ano").append(options);
                     });
                     document.querySelector("#ano").removeAttribute("disabled");
+                    $('.fa-spin').remove();
                 }
             });
         });
+
     });
 </script>

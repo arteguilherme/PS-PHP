@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label class="label-marca" class="block font-medium text-sm text-gray-700" for="marca">
+                        <label class="label-marca block font-medium text-sm text-gray-700" for="marca">
                             {{ __('Marca') }}
                         </label>
                         <select
@@ -53,7 +53,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="label-modelo" class="block font-medium text-sm text-gray-700" for="modelo">
+                        <label class="label-modelo block font-medium text-sm text-gray-700" for="modelo">
                             {{ __('Modelo') }}
                         </label>
                         <select
@@ -65,7 +65,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="label-ano" class="block font-medium text-sm text-gray-700" for="ano">
+                        <label class="label-ano block font-medium text-sm text-gray-700" for="ano">
                             {{ __('Ano') }}
                         </label>
                         <select
