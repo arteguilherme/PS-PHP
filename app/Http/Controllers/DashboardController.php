@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function index()
     {
         return view('dashboard', [
-            'vehicles' => Vehicle::orderBy('id', 'desc')->paginate(10)
+            'vehicles' => auth()->user()->vehicles()->orderBy('id', 'desc')->paginate(10)
         ]);
     }
 }

@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="text-gray-900">
-                    <div class="flex items-center justify-between p-6">
+                    <div class="flex items-center flex-col md:flex-row justify-between p-6">
                         <h3 class="text-2xl">{{ __('Lista de veículos') }}</h3>
                         <a href="{{ route('vehicles.create') }}"
                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">{{ __('Adicionar veiculo') }}</a>
